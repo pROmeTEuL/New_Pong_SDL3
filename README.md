@@ -1,4 +1,4 @@
-New_Pong_SDL3
+$New_Pong_SDL3
 
 New_Pong_SDL3 is a remake of the New_Pong, but in SDL3 and with another feature.
 The install is really simple:
