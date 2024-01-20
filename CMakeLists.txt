@@ -62,7 +62,8 @@ FetchContent_MakeAvailable(imgui)
 add_executable(${PROJECT_NAME}
     main.cpp
     window.h window.cpp
-    player.h player.cpp)
+    player.h player.cpp
+    ball.h ball.cpp)
 target_compile_definitions(${PROJECT_NAME}
     PRIVATE
         GL_GLEXT_PROTOTYPES

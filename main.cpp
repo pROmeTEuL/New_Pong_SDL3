@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
         ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 //         ImGui::ShowDemoWindow(&p_open);
         ImGui::Begin("h", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
-
+        // UI goes here
         ImGui::End();
 
         ImGui::Render();
