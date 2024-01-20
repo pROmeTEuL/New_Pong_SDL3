@@ -15,7 +15,7 @@ public:
 private:
     State m_state = HOLDED;
     SDL_FRect m_ball;
-    m_speed;
+    int m_speed;
     enum Direction {
         LEFT,
         RIGHT

@@ -3,7 +3,7 @@
 Player::Player(ID id, int width, int height)
     : m_id(id)
 {
-    m_speed = width / 68;
+    m_speed = width / 400;
     m_player.w = width / 5;
     m_player.h = height / 48;
     m_player.y = height - m_player.h;
@@ -22,6 +22,7 @@ Player::Player(ID id, int width, int height)
         m_color_b = 226;
         m_player.x = width - m_player.w;
     }
+    m_start = std::chrono::high_resolution_clock::now();
 }
 
 void Player::processEvent(const SDL_Event &event)
@@ -40,9 +41,14 @@ void Player::processEvent(const SDL_Event &event)
     }
 }
 
-void Player::update(float dt)
+void Player::update()
 {
-    m_player.x += m_right * dt * m_speed - m_left * dt * m_speed;
+    auto now = std::chrono::high_resolution_clock::now();
+    auto dif_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now - m_start).count();
+    if (dif_ms < 5)
+        return;
+    m_start = now;
+    m_player.x += m_right * dif_ms * m_speed - m_left * dif_ms * m_speed;
 }
 
 void Player::draw(SDL_Renderer *renderer)

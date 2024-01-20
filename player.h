@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <SDL3/SDL.h>
+#include <chrono>
 
 enum ID {
     PLAYER1,
@@ -13,7 +14,7 @@ class Player
 public:
     Player(ID id, int width, int height);
     void processEvent(const SDL_Event &event);
-    void update(float dt);
+    void update();
     void draw(SDL_Renderer *renderer);
     bool collides(SDL_FRect rect) const;
 private:
@@ -27,6 +28,7 @@ private:
     int m_speed;
     bool m_left = false;
     bool m_right = false;
+    std::chrono::time_point<std::chrono::high_resolution_clock> m_start;
 };
 
 #endif // PLAYER_H

@@ -47,8 +47,8 @@ int main(int argc, char *argv[]) {
             break;
         }
 
-        player1.update(1);
-        player2.update(1);
+        player1.update();
+        player2.update();
 
         ImGui_ImplSDLRenderer3_NewFrame();
         ImGui_ImplSDL3_NewFrame();
@@ -63,6 +63,7 @@ int main(int argc, char *argv[]) {
         ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 //         ImGui::ShowDemoWindow(&p_open);
         ImGui::Begin("h", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
+//        ImGui::Button("ceva");
         // UI goes here
         ImGui::End();
 
