@@ -9,7 +9,7 @@ The install is really simple:
 `cd ../build`
 `cmake ../New_Pong`
   - After that run the executable file and enjoy the game
-### Note: If you are using windows, be sure to have installed, otherwise you cannot use the orders previously specified
+### Note: If you are using windows, be sure to have MinGW (or an equivalent) installed, otherwise you cannot use the orders previously specified
 Features added to the game (WIP):
   - Multiplayer (just like squash game, but it's pong)
   - A menu to choose between multiplayer and singleplayer, made using ImGui(not yet included)
