@@ -3,6 +3,7 @@
 
 #include "window.h"
 #include "player.h"
+#include "ball.h"
 
 #include <SDL3/SDL.h>
 #include <backends/imgui_impl_sdl3.h>
@@ -18,6 +19,7 @@ int main(int argc, char *argv[]) {
     Window window("New_Pong");
     Player player1(ID::PLAYER1, window.getWidth(), window.getHeight());
     Player player2(ID::PLAYER2, window.getWidth(), window.getHeight());
+    Ball ball(window.getWidth(), window.getHeight());
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -35,8 +37,8 @@ int main(int argc, char *argv[]) {
         int finished = 0;
         SDL_Event event;
         while (window.pollEvent(event)) {
-            player1.processEvent(event);
-            player2.processEvent(event);
+            player1.processEvent(event, ball);
+            player2.processEvent(event, ball);
             ImGui_ImplSDL3_ProcessEvent(&event);
             if (event.type == SDL_EVENT_QUIT) {
                 finished = 1;
@@ -47,8 +49,10 @@ int main(int argc, char *argv[]) {
             break;
         }
 
-        player1.update();
-        player2.update();
+        player1.update(window.getWidth());
+        player2.update(window.getWidth());
+        ball.update(player1, window.getWidth(), window.getHeight());
+        ball.update(player2, window.getWidth(), window.getHeight());
 
         ImGui_ImplSDLRenderer3_NewFrame();
         ImGui_ImplSDL3_NewFrame();
@@ -70,8 +74,14 @@ int main(int argc, char *argv[]) {
         ImGui::Render();
 
         window.clear(0, 0, 0);
-        player1.draw(window.getRenderer());
-        player2.draw(window.getRenderer());
+        if (ball.getOwner() == PLAYER1) {
+            player2.draw(window.getRenderer());
+            player1.draw(window.getRenderer());
+        } else {
+            player1.draw(window.getRenderer());
+            player2.draw(window.getRenderer());
+        }
+        ball.draw(window.getRenderer());
         ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData());
         window.display();
 

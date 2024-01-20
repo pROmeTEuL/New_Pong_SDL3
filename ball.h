@@ -2,6 +2,7 @@
 #define BALL_H
 
 #include <SDL3/SDL.h>
+#include "player.h"
 
 enum State {
     FLYING,
@@ -11,15 +12,24 @@ enum State {
 class Ball
 {
 public:
-    Ball();
+    Ball(int width, int height);
+    void update(const Player &player, int width, int height);
+    void draw(SDL_Renderer *renderer);
+    void launchBall(int direction);
+    void effectLeft();
+    void effectRight();
+    ID getOwner() const;
+    State getState() const;
 private:
+    bool collides_with(const Player &player);
+    int effect();
     State m_state = HOLDED;
     SDL_FRect m_ball;
+    int m_effect = 1; // NEVER 0
     int m_speed;
-    enum Direction {
-        LEFT,
-        RIGHT
-    } m_direction;
+    int m_direction_horizontal = 1;
+    int m_direction_vertical = 0;
+    ID m_owner = PLAYER1;
     bool m_up = false;
 };
 

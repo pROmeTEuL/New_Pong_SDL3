@@ -9,19 +9,24 @@ enum ID {
     PLAYER2
 };
 
+class Ball;
+
 class Player
 {
 public:
     Player(ID id, int width, int height);
-    void processEvent(const SDL_Event &event);
-    void update();
+    void processEvent(const SDL_Event &event, Ball &ball);
+    void update(int width);
     void draw(SDL_Renderer *renderer);
+    SDL_FRect getPosition() const;
     bool collides(SDL_FRect rect) const;
+    ID getID() const;
 private:
     ID m_id;
     SDL_FRect m_player;
     int m_key_left;
     int m_key_right;
+    int m_key_launch;
     int m_color_r,
         m_color_g,
         m_color_b;
