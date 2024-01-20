@@ -19,11 +19,15 @@ public:
     void update(int width);
     void draw(SDL_Renderer *renderer);
     SDL_FRect getPosition() const;
-    bool collides(SDL_FRect rect) const;
+    bool isMovingLeft() const;
+    bool isMovingRight() const;
     ID getID() const;
+    int getScore() const;
+    int addScore();
 private:
     ID m_id;
     SDL_FRect m_player;
+    int score = 0;
     int m_key_left;
     int m_key_right;
     int m_key_launch;

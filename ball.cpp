@@ -9,7 +9,7 @@ Ball::Ball(int width, int height)
     m_speed = width / 90;
 }
 
-void Ball::update(const Player &player, int width, int height)
+void Ball::update(Player &player, int width, int height)
 {
     if (player.getID() != m_owner)
         return;
@@ -25,7 +25,12 @@ void Ball::update(const Player &player, int width, int height)
     if (m_ball.y <= 0)
         m_direction_vertical = -m_direction_vertical;
     if (collides_with(player)) {
+        player.addScore();
         m_direction_vertical = -m_direction_vertical;
+        if (player.isMovingLeft())
+            effectLeft();
+        if (player.isMovingRight())
+            effectRight();
         if (m_owner == PLAYER1)
             m_owner = PLAYER2;
         else
@@ -77,7 +82,15 @@ State Ball::getState() const
 
 bool Ball::collides_with(const Player &player)
 {
-    if (player.collides(m_ball))
-        return true;
-    return false;
+    if (player.getID() != m_owner)
+        return false;
+    if (player.getPosition().x > m_ball.x + m_ball.w)
+        return false;
+    if (player.getPosition().x + player.getPosition().w < m_ball.x)
+        return false;
+    if (player.getPosition().y > m_ball.y + m_ball.h)
+        return false;
+    if (player.getPosition().y + player.getPosition().h < m_ball.y)
+        return false;
+    return true;
 }

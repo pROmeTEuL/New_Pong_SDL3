@@ -13,16 +13,15 @@ class Ball
 {
 public:
     Ball(int width, int height);
-    void update(const Player &player, int width, int height);
+    void update(Player &player, int width, int height);
     void draw(SDL_Renderer *renderer);
     void launchBall(int direction);
-    void effectLeft();
-    void effectRight();
     ID getOwner() const;
     State getState() const;
 private:
     bool collides_with(const Player &player);
-    int effect();
+    void effectLeft();
+    void effectRight();
     State m_state = HOLDED;
     SDL_FRect m_ball;
     int m_effect = 1; // NEVER 0

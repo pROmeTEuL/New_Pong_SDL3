@@ -72,20 +72,27 @@ SDL_FRect Player::getPosition() const
     return m_player;
 }
 
-bool Player::collides(SDL_FRect rect) const
+bool Player::isMovingLeft() const
 {
-    if (m_player.x > rect.x + rect.w)
-        return false;
-    if (m_player.x + m_player.w < rect.x)
-        return false;
-    if (m_player.y > rect.y + rect.h)
-        return false;
-    if (m_player.y + m_player.h < rect.y)
-        return false;
-    return true;
+    return m_left;
+}
+
+bool Player::isMovingRight() const
+{
+    return m_right;
 }
 
 ID Player::getID() const
 {
     return m_id;
+}
+
+int Player::getScore() const
+{
+    return score;
+}
+
+int Player::addScore()
+{
+    ++score;
 }

@@ -67,7 +67,14 @@ int main(int argc, char *argv[]) {
         ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
 //         ImGui::ShowDemoWindow(&p_open);
         ImGui::Begin("h", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
-//        ImGui::Button("ceva");
+        std::string score1 = "Player1 score=" + std::to_string(player1.getScore());
+        std::string score2 = "Player2 score=" + std::to_string(player2.getScore());
+        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 68, 84, 255));
+        ImGui::Text(score1.c_str());
+        ImGui::PopStyleColor();
+        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 193, 226, 255));
+        ImGui::Text(score2.c_str());
+        ImGui::PopStyleColor();
         // UI goes here
         ImGui::End();
 
