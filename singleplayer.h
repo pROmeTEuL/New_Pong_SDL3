@@ -1,33 +1,24 @@
 #ifndef SINGLEPLAYER_H
 #define SINGLEPLAYER_H
 
-#include <SDL3/SDL.h>
-#include <backends/imgui_impl_sdl3.h>
-#include <backends/imgui_impl_sdlrenderer3.h>
-#include <imgui.h>
-
-#include "window.h"
+#include "gamebase.h"
 #include "player.h"
 #include "ball.h"
 
-
-class Singleplayer
+class Singleplayer : public GameBase
 {
 public:
     Singleplayer(Window &window);
     ~Singleplayer();
-    void processEvent(SDL_Event &event);
-    void run();
 private:
-    void update();
-    void draw();
-    void getScore();
-private:
-    Window m_window;
-    Player *m_player;
-    Ball *m_ball;
-    bool m_playing = true;
-    bool m_paused = false;
+        Player *m_player;
+        Ball *m_ball;
+// GameBase interface
+protected:
+    void processObjectEvent(SDL_Event &event);
+    void update(int width, int height);
+    void drawObjects(SDL_Renderer *renderer);
+    void drawScore();
 };
 
 #endif // SINGLEPLAYER_H

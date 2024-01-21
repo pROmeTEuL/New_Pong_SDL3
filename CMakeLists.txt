@@ -64,7 +64,9 @@ add_executable(${PROJECT_NAME}
     window.h window.cpp
     player.h player.cpp
     ball.h ball.cpp
-    singleplayer.h singleplayer.cpp)
+    gamebase.h gamebase.cpp
+    singleplayer.h singleplayer.cpp
+    multiplayer.h multiplayer.cpp)
 target_compile_definitions(${PROJECT_NAME}
     PRIVATE
         GL_GLEXT_PROTOTYPES

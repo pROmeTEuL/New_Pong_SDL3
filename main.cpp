@@ -3,6 +3,7 @@
 
 #include "window.h"
 #include "singleplayer.h"
+#include "multiplayer.h"
 
 #include <SDL3/SDL.h>
 #include <backends/imgui_impl_sdl3.h>
@@ -46,7 +47,20 @@ int main(int argc, char *argv[]) {
             ImGui::End();
             ImGui::EndFrame();
             Singleplayer game(window);
-            game.run();
+            if (game.run())
+                break;
+            ImGui::End();
+            ImGui::EndFrame();
+            continue;
+        }
+        if (ImGui::Button("Multiplayer")) {
+            ImGui::End();
+            ImGui::EndFrame();
+            Multiplayer game(window);
+            if (game.run())
+                break;
+            ImGui::End();
+            ImGui::EndFrame();
             continue;
         }
         if (ImGui::Button("Quit"))
