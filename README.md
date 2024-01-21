@@ -12,8 +12,8 @@ cmake ../New_Pong
 ```
   - After that run the executable file and enjoy the game
 ### Note: If you are using windows, be sure to have MinGW (or an equivalent) installed, otherwise you cannot use the commands previously specified
-Features added to the game (WIP):
+Game features:
   - Multiplayer (just like squash game, but it's pong)
   - A menu to choose between multiplayer and singleplayer, made using ImGui
-  - An option to play this game online using a pear-to-pear connection(the final step @_@)
+  - An option to play this game online using a pear-to-pear connection(WIP)
 
