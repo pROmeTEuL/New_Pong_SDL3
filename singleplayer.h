@@ -15,6 +15,7 @@ class Singleplayer
 {
 public:
     Singleplayer(Window &window);
+    ~Singleplayer();
     void processEvent(SDL_Event &event);
     void run();
 private:
@@ -25,7 +26,7 @@ private:
     Window m_window;
     Player *m_player;
     Ball *m_ball;
-    bool m_playing = false;
+    bool m_playing = true;
     bool m_paused = false;
 };
 

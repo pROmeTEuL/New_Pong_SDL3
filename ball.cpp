@@ -34,7 +34,7 @@ void Ball::update(Player &player, int width, int height)
             effectRight();
         if (m_owner == PLAYER1)
             m_owner = PLAYER2;
-        else
+        else if (m_owner == PLAYER2)
             m_owner = PLAYER1;
     }
     if (m_ball.y + m_ball.h >= height)
@@ -59,7 +59,7 @@ void Ball::launchBall(int direction)
     m_direction_horizontal = direction;
     if (m_owner == PLAYER1)
         m_owner = PLAYER2;
-    else
+    else if (m_owner == PLAYER2)
         m_owner = PLAYER1;
 }
 
