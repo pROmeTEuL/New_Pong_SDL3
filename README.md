@@ -12,6 +12,6 @@ The install is really simple:
 ### Note: If you are using windows, be sure to have MinGW (or an equivalent) installed, otherwise you cannot use the commands previously specified
 Features added to the game (WIP):
   - Multiplayer (just like squash game, but it's pong)
-  - A menu to choose between multiplayer and singleplayer, made using ImGui(not yet included)
+  - A menu to choose between multiplayer and singleplayer, made using ImGui
   - An option to play this game online using a pear-to-pear connection(the final step @_@)
 
