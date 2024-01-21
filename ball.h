@@ -12,7 +12,7 @@ enum State {
 class Ball
 {
 public:
-    Ball(int width, int height);
+    Ball(int width, int height, ID owner);
     void update(Player &player, int width, int height);
     void draw(SDL_Renderer *renderer);
     void launchBall(int direction);
@@ -28,7 +28,7 @@ private:
     int m_speed;
     int m_direction_horizontal = 1;
     int m_direction_vertical = 0;
-    ID m_owner = PLAYER1;
+    ID m_owner;
     bool m_up = false;
 };
 

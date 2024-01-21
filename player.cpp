@@ -16,7 +16,7 @@ Player::Player(ID id, int width, int height)
         m_color_g = 68;
         m_color_b = 84;
         m_player.x = 0;
-    } else {
+    } else if (m_id == PLAYER2){
         m_key_left = SDLK_LEFT;
         m_key_right = SDLK_RIGHT;
         m_key_launch = SDLK_RSHIFT;
@@ -24,6 +24,14 @@ Player::Player(ID id, int width, int height)
         m_color_g = 193;
         m_color_b = 226;
         m_player.x = width - m_player.w;
+    } else {
+        m_key_left = SDLK_LEFT;
+        m_key_right = SDLK_RIGHT;
+        m_key_launch = SDLK_SPACE;
+        m_color_r = 255;
+        m_color_g = 255;
+        m_color_b = 255;
+        m_player.x = width / 2 - m_player.w / 2;
     }
     m_start = std::chrono::high_resolution_clock::now();
 }
@@ -89,10 +97,10 @@ ID Player::getID() const
 
 int Player::getScore() const
 {
-    return score;
+    return m_score;
 }
 
-int Player::addScore()
+void Player::addScore()
 {
-    ++score;
+    ++m_score;
 }

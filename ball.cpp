@@ -1,12 +1,13 @@
 #include "ball.h"
 
-Ball::Ball(int width, int height)
+Ball::Ball(int width, int height, ID owner)
 {
     m_ball.x = 20;
     m_ball.y = 30;
     m_ball.w = width / 64;
     m_ball.h = height  /48;
     m_speed = width / 90;
+    m_owner = owner;
 }
 
 void Ball::update(Player &player, int width, int height)
@@ -44,8 +45,10 @@ void Ball::draw(SDL_Renderer *renderer)
 {
     if (m_owner == PLAYER1)
         SDL_SetRenderDrawColor(renderer, 255, 68, 84, SDL_ALPHA_OPAQUE);
-    else
+    else if (m_owner == PLAYER2)
         SDL_SetRenderDrawColor(renderer, 0, 193, 226, SDL_ALPHA_OPAQUE);
+    else
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(renderer, &m_ball);
 }
 

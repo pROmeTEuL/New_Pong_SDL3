@@ -6,7 +6,8 @@
 
 enum ID {
     PLAYER1,
-    PLAYER2
+    PLAYER2,
+    SINGLEPLAYER
 };
 
 class Ball;
@@ -23,11 +24,11 @@ public:
     bool isMovingRight() const;
     ID getID() const;
     int getScore() const;
-    int addScore();
+    void addScore();
 private:
     ID m_id;
     SDL_FRect m_player;
-    int score = 0;
+    int m_score = 0;
     int m_key_left;
     int m_key_right;
     int m_key_launch;
