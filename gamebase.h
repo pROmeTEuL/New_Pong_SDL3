@@ -12,6 +12,7 @@ class GameBase
 {
 public:
     GameBase(Window &window);
+    virtual ~GameBase() = default;
     bool run();
 protected:
     void processEvent();
@@ -21,7 +22,7 @@ protected:
     virtual void drawObjects(SDL_Renderer *renderer) = 0;
     virtual void drawScore() = 0;
 private:
-    Window m_window;
+    Window &m_window;
     bool m_playing = true;
     bool m_paused = false;
 };

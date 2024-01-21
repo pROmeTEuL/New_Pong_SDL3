@@ -45,14 +45,10 @@ bool GameBase::draw()
         ImGui::Begin("h", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration);
         if (ImGui::Button("Resume"))
             m_paused = false;
-        if (ImGui::Button("Main Menu")) {
+        if (ImGui::Button("Main Menu"))
             m_playing = false;
-            return false;
-        }
-        if (ImGui::Button("Quit")) {
+        if (ImGui::Button("Quit"))
             m_playing = false;
-            return true;
-        }
         // UI goes here
         ImGui::End();
     }

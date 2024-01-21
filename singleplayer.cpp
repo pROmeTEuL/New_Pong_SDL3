@@ -1,5 +1,4 @@
 #include "singleplayer.h"
-#include <string>
 
 Singleplayer::Singleplayer(Window &window) : GameBase(window)
 {
@@ -34,10 +33,9 @@ void Singleplayer::drawScore()
 {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-    std::string score = "Score: " + std::to_string(m_player->getScore());
     ImGui::Begin("Score", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
     ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
-    ImGui::Text(score.c_str());
+    ImGui::Text("Score: %d", m_player->getScore());
     ImGui::PopStyleColor();
     ImGui::End();
 }

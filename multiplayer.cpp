@@ -1,5 +1,4 @@
 #include "multiplayer.h"
-#include <string>
 
 Multiplayer::Multiplayer(Window &window) : GameBase(window)
 {
@@ -45,14 +44,12 @@ void Multiplayer::drawScore()
 {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-    std::string score1 = "Player 1 score: " + std::to_string(m_player1->getScore());
-    std::string score2 = "Player 2 score: " + std::to_string(m_player2->getScore());
     ImGui::Begin("Score", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
     ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 68, 84, 255));
-    ImGui::Text(score1.c_str());
+    ImGui::Text("Player 1 score: %d", m_player1->getScore());
     ImGui::PopStyleColor();
     ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 193, 226, 255));
-    ImGui::Text(score2.c_str());
+    ImGui::Text("Player 2 score: %d", m_player2->getScore());
     ImGui::PopStyleColor();
     ImGui::End();
 }
