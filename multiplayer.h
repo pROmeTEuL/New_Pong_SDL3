@@ -4,11 +4,12 @@
 #include "gamebase.h"
 #include "player.h"
 #include "ball.h"
+#include <memory>
 
 class Multiplayer : public GameBase
 {
 public:
-    Multiplayer(Window &window);
+    Multiplayer(const std::shared_ptr<Window> &window);
     ~Multiplayer();
 private:
     Player *m_player1;

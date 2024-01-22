@@ -5,13 +5,14 @@
 #include <backends/imgui_impl_sdl3.h>
 #include <backends/imgui_impl_sdlrenderer3.h>
 #include <imgui.h>
+#include <memory>
 
 #include "window.h"
 
 class GameBase
 {
 public:
-    GameBase(Window &window);
+    GameBase(const std::shared_ptr<Window> &window);
     virtual ~GameBase() = default;
     bool run();
 protected:
@@ -22,7 +23,7 @@ protected:
     virtual void drawObjects(SDL_Renderer *renderer) = 0;
     virtual void drawScore() = 0;
 private:
-    Window &m_window;
+    std::shared_ptr<Window> m_window;
     bool m_playing = true;
     bool m_paused = false;
 };

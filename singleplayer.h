@@ -4,15 +4,16 @@
 #include "gamebase.h"
 #include "player.h"
 #include "ball.h"
+#include <memory>
 
 class Singleplayer : public GameBase
 {
 public:
-    Singleplayer(Window &window);
+    Singleplayer(const std::shared_ptr<Window> &window);
     ~Singleplayer();
 private:
-        Player *m_player;
-        Ball *m_ball;
+        std::unique_ptr<Player> m_player;
+        std::unique_ptr<Ball> m_ball;
 // GameBase interface
 protected:
     void processObjectEvent(SDL_Event &event);

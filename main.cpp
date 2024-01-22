@@ -9,6 +9,7 @@
 #include <backends/imgui_impl_sdl3.h>
 #include <backends/imgui_impl_sdlrenderer3.h>
 #include <imgui.h>
+#include <memory>
 
 int main(int argc, char *argv[]) {
     // auto ids = SDL_GetGamepads(&pads);
@@ -16,7 +17,7 @@ int main(int argc, char *argv[]) {
     // std::cout << SDL_GetGamepadName(joyId) << std::endl;
     // std::cout << SDL_GetGamepadPath(joyId) << std::endl;
 
-    Window window("New_Pong");
+    auto window = std::make_shared<Window>("New_Pong");
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -26,13 +27,13 @@ int main(int argc, char *argv[]) {
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;
     //    io.FontGlobalScale = scale;
     //    ImGui::GetStyle().ScaleAllSizes(scale);
-    ImGui_ImplSDL3_InitForSDLRenderer(window.getWindow(), window.getRenderer());
-    ImGui_ImplSDLRenderer3_Init(window.getRenderer());
+    ImGui_ImplSDL3_InitForSDLRenderer(window->getWindow(), window->getRenderer());
+    ImGui_ImplSDLRenderer3_Init(window->getRenderer());
     // ImGui_ImplSDL3_SetGamepad(joyId);
     while (true) {
         GameBase * game = nullptr;
         SDL_Event event;
-        while (window.pollEvent(event)) {
+        while (window->pollEvent(event)) {
             ImGui_ImplSDL3_ProcessEvent(&event);
             if (event.type == SDL_EVENT_QUIT)
                 break;
@@ -40,8 +41,8 @@ int main(int argc, char *argv[]) {
         ImGui_ImplSDLRenderer3_NewFrame();
         ImGui_ImplSDL3_NewFrame();
         ImGui::NewFrame();
-        ImGui::SetNextWindowPos(ImVec2(window.getWidth() / 3, window.getHeight() / 4));
-        ImGui::SetNextWindowSize(ImVec2(window.getWidth() / 3, window.getHeight() / 2));
+        ImGui::SetNextWindowPos(ImVec2(window->getWidth() / 3, window->getHeight() / 4));
+        ImGui::SetNextWindowSize(ImVec2(window->getWidth() / 3, window->getHeight() / 2));
         ImGui::Begin("Main menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration);
         if (ImGui::Button("Singleplayer"))
             game = new Singleplayer(window);
@@ -50,14 +51,14 @@ int main(int argc, char *argv[]) {
         if (ImGui::Button("Quit"))
             break;
         ImGui::End();
-        window.clear(0, 0, 0);
+        window->clear(0, 0, 0);
         ImGui::Render();
         ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData());
         if (game) {
             game->run();
             delete game;
         } else {
-            window.display();
+            window->display();
         }
     }
     ImGui_ImplSDLRenderer3_Shutdown();

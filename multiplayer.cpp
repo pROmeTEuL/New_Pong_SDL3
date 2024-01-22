@@ -1,10 +1,10 @@
 #include "multiplayer.h"
 
-Multiplayer::Multiplayer(Window &window) : GameBase(window)
+Multiplayer::Multiplayer(const std::shared_ptr<Window> &window) : GameBase(window)
 {
-    m_player1 = new Player(PLAYER1, window.getWidth(), window.getHeight());
-    m_player2 = new Player(PLAYER2, window.getWidth(), window.getHeight());
-    m_ball = new Ball(window.getWidth(), window.getHeight(), m_player1->getID());
+    m_player1 = new Player(PLAYER1, window->getWidth(), window->getHeight());
+    m_player2 = new Player(PLAYER2, window->getWidth(), window->getHeight());
+    m_ball = new Ball(window->getWidth(), window->getHeight(), m_player1->getID());
 }
 
 Multiplayer::~Multiplayer()

@@ -1,15 +1,14 @@
 #include "singleplayer.h"
 
-Singleplayer::Singleplayer(Window &window) : GameBase(window)
+Singleplayer::Singleplayer(const std::shared_ptr<Window> &window) : GameBase(window)
 {
-    m_player = new Player(SINGLEPLAYER, window.getWidth(), window.getHeight());
-    m_ball = new Ball(window.getWidth(), window.getHeight(), m_player->getID());
+    m_player = std::make_unique<Player>(SINGLEPLAYER, window->getWidth(), window->getHeight());
+    m_ball = std::make_unique<Ball>(window->getWidth(), window->getHeight(), m_player->getID());
 }
 
 Singleplayer::~Singleplayer()
 {
-    delete m_player;
-    delete m_ball;
+
 }
 
 void Singleplayer::processObjectEvent(SDL_Event &event)
