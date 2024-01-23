@@ -26,9 +26,9 @@ void Menu::draw()
             m_state = State::HIDDEN;
         }
         if (ImGui::Button("Multiplayer")) {
-            if (m_multiPlayerCallback)
-                m_multiPlayerCallback();
-            m_state = State::HIDDEN;
+//            if (m_multiPlayerCallback)
+//                m_multiPlayerCallback();
+            m_state = State::MULTIPLAYER;
         }
         if (ImGui::Button("Quit")) {
             if (m_quitCallback)
@@ -40,7 +40,7 @@ void Menu::draw()
     case State::PAUSED:
         ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 4));
         ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
-        ImGui::Begin("h", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration);
+        ImGui::Begin("Pause", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration);
         if (ImGui::Button("Resume")) {
             if (m_resumeCallback)
                 m_resumeCallback();
@@ -61,6 +61,22 @@ void Menu::draw()
         ImGui::End();
         break;
     case State::MULTIPLAYER:
+        ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 4));
+        ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
+        ImGui::Begin("Multiplayer menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDecoration);
+        if (ImGui::Button("Local play")) {
+            if (m_multiPlayerCallback)
+                m_multiPlayerCallback();
+            m_state = State::HIDDEN;
+        }
+        if (ImGui::Button("Host game"));
+        if (ImGui::Button("Join game"));
+        if (ImGui::Button("Back")) {
+            if (m_mainMenuCallback)
+                m_mainMenuCallback();
+            m_state = State::MAIN_MENU;
+        }
+        ImGui::End();
         break;
     case State::CREATE:
         break;
