@@ -18,7 +18,7 @@ class Menu
         PAUSED,
         MULTIPLAYER,
         JOIN,
-        CREATE
+        HOST
     };
 
 public:
@@ -26,6 +26,7 @@ public:
     void draw();
     void setWindow(const std::shared_ptr<Window> &window);
     void setPaused();
+    void togglePause();
     void setSinglePlayerCallback(const std::function<void ()> &newSinglePlayerCallback);
     void setMultiPlayerCallback(const std::function<void ()> &newMultiPlayerCallback);
     void setResumeCallback(const std::function<void ()> &newResumeCallback);
@@ -35,7 +36,6 @@ public:
     void setPausedMenuQuitCallback(const std::function<void ()> &newPausedMenuQuitCallback);
 
     bool isPaused() const;
-
 private:
     Menu() = default;
 private:
