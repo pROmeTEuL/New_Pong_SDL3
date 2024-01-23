@@ -17,10 +17,9 @@ private:
     Ball *m_ball;
     // GameBase interface
 protected:
-    void processObjectEvent(SDL_Event &event);
-    void update(int width, int height);
-    void drawObjects(SDL_Renderer *renderer);
-    void drawScore();
+    void processObjectEvent(SDL_Event &event) override;
+    void update(int width, int height) override;
+    void drawObjects(SDL_Renderer *renderer) override;
 };
 
 #endif // MULTIPLAYER_H

@@ -13,15 +13,14 @@ class GameBase
 {
 public:
     GameBase(const std::shared_ptr<Window> &window);
-    virtual ~GameBase() = default;
-    bool run();
+    virtual ~GameBase();
+    void run();
 protected:
     void processEvent();
     virtual void processObjectEvent(SDL_Event &event) = 0;
     virtual void update(int width, int height) = 0;
     bool draw();
     virtual void drawObjects(SDL_Renderer *renderer) = 0;
-    virtual void drawScore() = 0;
 private:
     std::shared_ptr<Window> m_window;
     bool m_playing = true;

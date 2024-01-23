@@ -1,10 +1,23 @@
 #include "multiplayer.h"
+#include "menu.h"
 
 Multiplayer::Multiplayer(const std::shared_ptr<Window> &window) : GameBase(window)
 {
     m_player1 = new Player(PLAYER1, window->getWidth(), window->getHeight());
     m_player2 = new Player(PLAYER2, window->getWidth(), window->getHeight());
     m_ball = new Ball(window->getWidth(), window->getHeight(), m_player1->getID());
+    Menu::instance().setDrawScore([this]{
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+        ImGui::Begin("Score", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
+        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 68, 84, 255));
+        ImGui::Text("Player 1 score: %d", m_player1->getScore());
+        ImGui::PopStyleColor();
+        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 193, 226, 255));
+        ImGui::Text("Player 2 score: %d", m_player2->getScore());
+        ImGui::PopStyleColor();
+        ImGui::End();
+    });
 }
 
 Multiplayer::~Multiplayer()
@@ -38,18 +51,4 @@ void Multiplayer::drawObjects(SDL_Renderer *renderer)
         m_player2->draw(renderer);
     }
     m_ball->draw(renderer);
-}
-
-void Multiplayer::drawScore()
-{
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
-    ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
-    ImGui::Begin("Score", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration);
-    ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 68, 84, 255));
-    ImGui::Text("Player 1 score: %d", m_player1->getScore());
-    ImGui::PopStyleColor();
-    ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 193, 226, 255));
-    ImGui::Text("Player 2 score: %d", m_player2->getScore());
-    ImGui::PopStyleColor();
-    ImGui::End();
 }
