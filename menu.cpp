@@ -26,8 +26,8 @@ void Menu::draw()
             m_state = State::HIDDEN;
         }
         if (ImGui::Button("Multiplayer")) {
-//            if (m_multiPlayerCallback)
-//                m_multiPlayerCallback();
+            //            if (m_multiPlayerCallback)
+            //                m_multiPlayerCallback();
             m_state = State::MULTIPLAYER;
         }
         if (ImGui::Button("Quit")) {
@@ -84,21 +84,31 @@ void Menu::draw()
         ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 4));
         ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
         ImGui::Begin("Host game", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
+        if (ImGui::Button("Create")) {
+            // multiplayer
+        }
         if (ImGui::Button("Back")) {
             m_state = State::MULTIPLAYER;
         }
         ImGui::End();
         break;
-    case State::JOIN:
+    case State::JOIN: {
         ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 4));
         ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
         ImGui::Begin("Join game", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
-        //ImGui::InputText("Ip");
+        char ip[251] = {0};
+        ImGui::InputText("Ip", ip, 250);
+        if (ImGui::Button("Join")) {
+            m_ip.clear();
+            m_ip = ip;
+            // multiplayer
+        }
         if (ImGui::Button("Back")) {
             m_state = State::MULTIPLAYER;
         }
         ImGui::End();
-        break;
+    }
+    break;
     default:
         break;
     }

@@ -30,6 +30,16 @@ FetchContent_Declare(
   GIT_TAG master
 )
 
+FetchContent_Declare(
+    SDL_net
+    GIT_REPOSITORY "https://github.com/libsdl-org/SDL_net.git"
+    GIT_TAG main
+    GIT_SHALLOW TRUE
+    GIT_PROGRESS TRUE
+)
+
+FetchContent_MakeAvailable(SDL_net)
+
 FetchContent_GetProperties(imgui)
 if (NOT imgui_POPULATED)
   FetchContent_Populate(imgui)
@@ -55,7 +65,7 @@ add_library(imgui
   ${imgui_SOURCE_DIR}/backends/imgui_impl_sdlrenderer3.cpp)
 
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
-target_link_libraries(imgui PUBLIC SDL3::SDL3)
+target_link_libraries(imgui PUBLIC SDL3::SDL3 SDL3_net::SDL3_net)
 
 FetchContent_MakeAvailable(imgui)
 

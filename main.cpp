@@ -60,6 +60,7 @@ int main(int argc, char *argv[]) {
             game = nullptr;
         } else {
             window->display();
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
     ImGui_ImplSDLRenderer3_Shutdown();

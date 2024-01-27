@@ -7,6 +7,7 @@
 #include <imgui.h>
 #include <memory>
 #include <functional>
+#include <iostream>
 
 #include "window.h"
 
@@ -48,6 +49,7 @@ private:
     std::function<void()> m_mainMenuCallback;
     std::function<void()> m_pausedMenuQuitCallback;
     State m_state = State::MAIN_MENU;
+    std::string m_ip;
 };
 
 #endif // MENU_H
