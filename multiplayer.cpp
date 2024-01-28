@@ -35,11 +35,18 @@ Multiplayer::Multiplayer(const std::shared_ptr<Window> &window, Mode mode, SDLNe
     default:
         break;
     }
+    Menu::instance().setSendMessage([this](const std::string &msg) {
+        MsgData data;
+        data.size = msg.size() + sizeof(Header) + 1;
+        strcpy(data.msg, msg.c_str());
+        SDLNet_WriteToStreamSocket(m_socket, &data, data.size);
+    });
 }
 
 Multiplayer::~Multiplayer()
 {
     SDLNet_DestroyStreamSocket(m_socket);
+    Menu::instance().setSendMessage({});
 }
 
 void Multiplayer::processObjectEvent(SDL_Event &event)
@@ -150,6 +157,7 @@ void Multiplayer::processEvent()
             break;
             case Header::Type::MSG_DATA: {
                 auto msgBuf = reinterpret_cast<MsgData*>(buf);
+                Menu::instance().addChat(msgBuf->msg);
             }
             break;
             }

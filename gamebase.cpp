@@ -37,6 +37,9 @@ void GameBase::processEvent()
         ImGui_ImplSDL3_ProcessEvent(&event);
         if (event.type == SDL_EVENT_KEY_DOWN && event.key.keysym.sym == SDLK_ESCAPE)
             Menu::instance().togglePause();
+        if (event.type == SDL_EVENT_KEY_DOWN && event.key.keysym.sym == SDLK_BACKQUOTE) {
+            Menu::instance().setState(Menu::State::CHAT);
+        }
     }
 }
 

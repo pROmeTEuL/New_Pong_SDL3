@@ -145,6 +145,24 @@ void Menu::draw()
             m_state = State::HIDDEN;
         }
         break;
+    case State::CHAT:
+        ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 4, 0));
+        ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 2, m_window->getHeight() / 2));
+        ImGui::Begin("Chat", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
+        for (const auto &el : m_chatLog) {
+            ImGui::Text("%s", el.c_str());
+        }
+        if (!ImGui::IsAnyItemActive() && !ImGui::IsMouseClicked(0))
+            ImGui::SetKeyboardFocusHere(0);
+        static char msg[251] = {0};
+        if (ImGui::InputText(" ", msg, 250, ImGuiInputTextFlags_EnterReturnsTrue) && msg[0] != 0) {
+            if (m_sendMessage)
+                m_sendMessage(msg);
+            m_chatLog.push_back(msg);
+            msg[0] = 0;
+        }
+        ImGui::End();
+        break;
     default:
         break;
     }
@@ -202,7 +220,7 @@ void Menu::setMainMenuCallback(const std::function<void ()> &newMainMenuCallback
 
 bool Menu::isPaused() const
 {
-    return m_state == State::PAUSED;
+    return m_state == State::PAUSED || m_state == State::CHAT;
 }
 
 Menu::State Menu::getState() const
@@ -213,6 +231,16 @@ Menu::State Menu::getState() const
 void Menu::setState(State newState)
 {
     m_state = newState;
+}
+
+void Menu::addChat(const std::string &msg)
+{
+    m_chatLog.push_back("* " + msg);
+}
+
+void Menu::setSendMessage(const std::function<void (const std::string &)> &newSendMessage)
+{
+    m_sendMessage = newSendMessage;
 }
 
 void Menu::setGuestJoined(const std::function<void (SDLNet_StreamSocket *)> &newGuestJoined)

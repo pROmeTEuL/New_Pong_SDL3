@@ -9,6 +9,8 @@
 #include <memory>
 #include <functional>
 #include <iostream>
+#include <vector>
+#include <string>
 
 #include "window.h"
 
@@ -22,7 +24,8 @@ public:
         MULTIPLAYER,
         JOIN,
         WAITING_FOR_GUEST,
-        WAITING_FOR_HOST
+        WAITING_FOR_HOST,
+        CHAT
     };
 
 public:
@@ -41,9 +44,13 @@ public:
     void setGuestJoined(const std::function<void (SDLNet_StreamSocket*)> &newGuestJoined);
     void setConnectedToHost(const std::function<void (SDLNet_StreamSocket *)> &newConnectedToHost);
 
+
     bool isPaused() const;
     State getState() const;
     void setState(State newState);
+    void addChat(const std::string &msg);
+
+    void setSendMessage(const std::function<void (const std::string &)> &newSendMessage);
 
 private:
     Menu() = default;
@@ -58,9 +65,11 @@ private:
     std::function<void()> m_pausedMenuQuitCallback;
     std::function<void(SDLNet_StreamSocket*)> m_guestJoined;
     std::function<void(SDLNet_StreamSocket*)> m_connectedToHost;
+    std::function<void(const std::string&)> m_sendMessage;
     State m_state = State::MAIN_MENU;
     SDLNet_Server *m_server = nullptr;
     SDLNet_StreamSocket *m_socket = nullptr;
+    std::vector<std::string> m_chatLog;
 };
 
 #endif // MENU_H
