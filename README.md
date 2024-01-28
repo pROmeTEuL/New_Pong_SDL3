@@ -17,5 +17,5 @@ Game features:
   - A menu to choose between multiplayer and singleplayer, made using ImGui
   - An option to play this game online using a tcp connection
   - A chat to communicate with the opponent 
-
+## Note: The address to join an online game must be an IPv4 address instead of IPv6 or domain name (example: 127.0.0.1 instead of localhost or 0:0:0:0:0:0:0:1)
 
