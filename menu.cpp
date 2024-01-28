@@ -18,6 +18,8 @@ void Menu::draw()
         m_drawScore();
     switch (m_state) {
     case State::MAIN_MENU:
+        if (m_chatLog.size() > 0)
+            m_chatLog.clear();
         ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 4));
         ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
         ImGui::Begin("Main menu", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);

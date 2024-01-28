@@ -33,7 +33,7 @@ Multiplayer::Multiplayer(const std::shared_ptr<Window> &window, Mode mode, SDLNe
         m_data = std::make_unique<GuestData>();
         break;
     default:
-        break;
+        return;
     }
     Menu::instance().setSendMessage([this](const std::string &msg) {
         MsgData data;
