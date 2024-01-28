@@ -15,5 +15,7 @@ cmake ../New_Pong
 Game features:
   - Multiplayer (just like squash game, but it's pong)
   - A menu to choose between multiplayer and singleplayer, made using ImGui
-  - An option to play this game online using a pear-to-pear connection(WIP)
+  - An option to play this game online using a tcp connection
+  - A chat to communicate with the opponent 
+
 
