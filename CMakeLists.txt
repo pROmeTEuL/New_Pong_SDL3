@@ -78,6 +78,7 @@ add_executable(${PROJECT_NAME}
     singleplayer.h singleplayer.cpp
     multiplayer.h multiplayer.cpp
     menu.h menu.cpp)
+
 target_compile_definitions(${PROJECT_NAME}
     PRIVATE
         GL_GLEXT_PROTOTYPES

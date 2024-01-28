@@ -3,9 +3,9 @@
 
 Multiplayer::Multiplayer(const std::shared_ptr<Window> &window) : GameBase(window)
 {
-    m_player1 = new Player(PLAYER1, window->getWidth(), window->getHeight());
-    m_player2 = new Player(PLAYER2, window->getWidth(), window->getHeight());
-    m_ball = new Ball(window->getWidth(), window->getHeight(), m_player1->getID());
+    m_player1 = std::make_unique<Player>(PLAYER1, window->getWidth(), window->getHeight());
+    m_player2 = std::make_unique<Player>(PLAYER2, window->getWidth(), window->getHeight());
+    m_ball = std::make_unique<Ball>(window->getWidth(), window->getHeight(), m_player1->getID());
     Menu::instance().setDrawScore([this]{
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
@@ -22,9 +22,7 @@ Multiplayer::Multiplayer(const std::shared_ptr<Window> &window) : GameBase(windo
 
 Multiplayer::~Multiplayer()
 {
-    delete m_player1;
-    delete m_player2;
-    delete m_ball;
+
 }
 
 void Multiplayer::processObjectEvent(SDL_Event &event)

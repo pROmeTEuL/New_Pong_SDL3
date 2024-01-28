@@ -1,4 +1,5 @@
 #include "menu.h"
+#include <iostream>
 
 Menu &Menu::instance()
 {
@@ -85,23 +86,47 @@ void Menu::draw()
         ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
         ImGui::Begin("Host game", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
         if (ImGui::Button("Create")) {
-            // multiplayer
+            m_server = SDLNet_CreateServer(nullptr, 4200);
+            m_state = State::WAITING_FOR_GUEST;
         }
         if (ImGui::Button("Back")) {
             m_state = State::MULTIPLAYER;
         }
         ImGui::End();
         break;
+    case State::WAITING_FOR_GUEST:
+        ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 4));
+        ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
+        ImGui::Begin("Hosting game", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
+        ImGui::Text("Waiting for player2 to join %c", "|/-\\"[(int)(ImGui::GetTime() / 0.05f) & 3]);
+        if (ImGui::Button("Back")) {
+            m_state = State::HOST;
+            SDLNet_DestroyServer(m_server);
+            m_server = nullptr;
+        }
+        ImGui::End();
+        if (m_server && !SDLNet_AcceptClient(m_server, &m_socket) && m_socket) {
+            if (m_guestJoined)
+                m_guestJoined();
+            m_state = State::HIDDEN;
+        }
+        break;
     case State::JOIN: {
         ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 4));
         ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
         ImGui::Begin("Join game", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
-        char ip[251] = {0};
+        static char ip[251] = {0};
         ImGui::InputText("Ip", ip, 250);
         if (ImGui::Button("Join")) {
-            m_ip.clear();
-            m_ip = ip;
-            // multiplayer
+            SDLNet_Address *address = SDLNet_ResolveHostname(ip);
+            while (SDLNet_GetAddressStatus(address) == 0);
+            if (SDLNet_GetAddressStatus(address) != 1) {
+                std::cerr << "Can't resolve hostname: " << ip << std::endl;
+            } else {
+                m_socket = SDLNet_CreateClient(address, 4200);
+                m_state = State::WAITING_FOR_HOST;
+            }
+            SDLNet_UnrefAddress(address);
         }
         if (ImGui::Button("Back")) {
             m_state = State::MULTIPLAYER;
@@ -109,6 +134,23 @@ void Menu::draw()
         ImGui::End();
     }
     break;
+    case State::WAITING_FOR_HOST:
+        ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 4));
+        ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
+        ImGui::Begin("Joining game", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
+        ImGui::Text("Connecting to host %c", "|/-\\"[(int)(ImGui::GetTime() / 0.05f) & 3]);
+        if (ImGui::Button("Back")) {
+            m_state = State::JOIN;
+            SDLNet_DestroyStreamSocket(m_socket);
+            m_socket = nullptr;
+        }
+        ImGui::End();
+        if (m_socket && SDLNet_GetConnectionStatus(m_socket) == 1) {
+            if (m_connectedToHost)
+                m_connectedToHost();
+            m_state = State::HIDDEN;
+        }
+        break;
     default:
         break;
     }
@@ -167,6 +209,16 @@ void Menu::setMainMenuCallback(const std::function<void ()> &newMainMenuCallback
 bool Menu::isPaused() const
 {
     return m_state == State::PAUSED;
+}
+
+void Menu::setGuestJoined(const std::function<void ()> &newGuestJoined)
+{
+    m_guestJoined = newGuestJoined;
+}
+
+void Menu::setConnectedToHost(const std::function<void ()> &newConnectedToHost)
+{
+    m_connectedToHost = newConnectedToHost;
 }
 
 void Menu::setPausedMenuQuitCallback(const std::function<void ()> &newPausedMenuQuitCallback)

@@ -12,9 +12,9 @@ public:
     Multiplayer(const std::shared_ptr<Window> &window);
     ~Multiplayer();
 private:
-    Player *m_player1;
-    Player *m_player2;
-    Ball *m_ball;
+    std::unique_ptr<Player> m_player1;
+    std::unique_ptr<Player> m_player2;
+    std::unique_ptr<Ball> m_ball;
     // GameBase interface
 protected:
     void processObjectEvent(SDL_Event &event) override;

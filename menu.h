@@ -2,6 +2,7 @@
 #define MENU_H
 
 #include <SDL3/SDL.h>
+#include <SDL3_net/SDL_net.h>
 #include <backends/imgui_impl_sdl3.h>
 #include <backends/imgui_impl_sdlrenderer3.h>
 #include <imgui.h>
@@ -19,7 +20,9 @@ class Menu
         PAUSED,
         MULTIPLAYER,
         JOIN,
-        HOST
+        HOST,
+        WAITING_FOR_GUEST,
+        WAITING_FOR_HOST
     };
 
 public:
@@ -37,6 +40,10 @@ public:
     void setPausedMenuQuitCallback(const std::function<void ()> &newPausedMenuQuitCallback);
 
     bool isPaused() const;
+    void setGuestJoined(const std::function<void ()> &newGuestJoined);
+
+    void setConnectedToHost(const std::function<void ()> &newConnectedToHost);
+
 private:
     Menu() = default;
 private:
@@ -48,8 +55,11 @@ private:
     std::function<void()> m_drawScore;
     std::function<void()> m_mainMenuCallback;
     std::function<void()> m_pausedMenuQuitCallback;
+    std::function<void()> m_guestJoined;
+    std::function<void()> m_connectedToHost;
     State m_state = State::MAIN_MENU;
-    std::string m_ip;
+    SDLNet_Server *m_server = nullptr;
+    SDLNet_StreamSocket *m_socket = nullptr;
 };
 
 #endif // MENU_H

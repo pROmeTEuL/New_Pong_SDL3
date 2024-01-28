@@ -2,6 +2,7 @@
 #include <thread>
 
 #include <SDL3/SDL.h>
+#include <SDL3_net/SDL_net.h>
 #include <backends/imgui_impl_sdl3.h>
 #include <backends/imgui_impl_sdlrenderer3.h>
 #include <imgui.h>
@@ -13,6 +14,10 @@
 #include "menu.h"
 
 int main(int argc, char *argv[]) {
+    if(SDLNet_Init() == -1) {
+        std::cout << "No network!" << std::endl;
+        return 0;
+    }
     // auto ids = SDL_GetGamepads(&pads);
     // auto joyId = SDL_OpenGamepad(ids[0]);
     // std::cout << SDL_GetGamepadName(joyId) << std::endl;
