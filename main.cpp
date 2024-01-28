@@ -48,7 +48,15 @@ int main(int argc, char *argv[]) {
     });
     Menu::instance().setMultiPlayerCallback([&game, &window]{
         delete game;
-        game = new Multiplayer(window);
+        game = new Multiplayer(window, Multiplayer::Mode::LOCAL);
+    });
+    Menu::instance().setConnectedToHost([&game, &window](SDLNet_StreamSocket *socket){
+        delete game;
+        game = new Multiplayer(window, Multiplayer::Mode::GUEST, socket);
+    });
+    Menu::instance().setGuestJoined([&game, &window](SDLNet_StreamSocket *socket){
+        delete game;
+        game = new Multiplayer(window, Multiplayer::Mode::HOST, socket);
     });
     while (!quit) {
         SDL_Event event;

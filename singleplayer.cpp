@@ -3,7 +3,7 @@
 
 Singleplayer::Singleplayer(const std::shared_ptr<Window> &window) : GameBase(window)
 {
-    m_player = std::make_unique<Player>(SINGLEPLAYER, window->getWidth(), window->getHeight());
+    m_player = std::make_unique<Player>(Player::ID::SINGLEPLAYER, window->getWidth(), window->getHeight());
     m_ball = std::make_unique<Ball>(window->getWidth(), window->getHeight(), m_player->getID());
     Menu::instance().setDrawScore([this]{
         ImGui::SetNextWindowPos(ImVec2(0, 0));

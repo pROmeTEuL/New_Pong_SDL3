@@ -71,7 +71,8 @@ void Menu::draw()
             m_state = State::HIDDEN;
         }
         if (ImGui::Button("Host game")) {
-            m_state = State::HOST;
+            m_server = SDLNet_CreateServer(nullptr, 4200);
+            m_state = State::WAITING_FOR_GUEST;
         }
         if (ImGui::Button("Join game")) {
             m_state = State::JOIN;
@@ -81,33 +82,24 @@ void Menu::draw()
         }
         ImGui::End();
         break;
-    case State::HOST:
-        ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 4));
-        ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
-        ImGui::Begin("Host game", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
-        if (ImGui::Button("Create")) {
-            m_server = SDLNet_CreateServer(nullptr, 4200);
-            m_state = State::WAITING_FOR_GUEST;
-        }
-        if (ImGui::Button("Back")) {
-            m_state = State::MULTIPLAYER;
-        }
-        ImGui::End();
-        break;
     case State::WAITING_FOR_GUEST:
         ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 4));
         ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
         ImGui::Begin("Hosting game", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
         ImGui::Text("Waiting for player2 to join %c", "|/-\\"[(int)(ImGui::GetTime() / 0.05f) & 3]);
         if (ImGui::Button("Back")) {
-            m_state = State::HOST;
+            m_state = State::MULTIPLAYER;
             SDLNet_DestroyServer(m_server);
             m_server = nullptr;
         }
         ImGui::End();
         if (m_server && !SDLNet_AcceptClient(m_server, &m_socket) && m_socket) {
-            if (m_guestJoined)
-                m_guestJoined();
+            if (m_guestJoined) {
+                m_guestJoined(m_socket);
+                m_socket = nullptr;
+            }
+            SDLNet_DestroyServer(m_server);
+            m_server = nullptr;
             m_state = State::HIDDEN;
         }
         break;
@@ -115,7 +107,7 @@ void Menu::draw()
         ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 4));
         ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 3, m_window->getHeight() / 2));
         ImGui::Begin("Join game", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
-        static char ip[251] = {0};
+        static char ip[251] = "127.0.0.1";
         ImGui::InputText("Ip", ip, 250);
         if (ImGui::Button("Join")) {
             SDLNet_Address *address = SDLNet_ResolveHostname(ip);
@@ -146,8 +138,10 @@ void Menu::draw()
         }
         ImGui::End();
         if (m_socket && SDLNet_GetConnectionStatus(m_socket) == 1) {
-            if (m_connectedToHost)
-                m_connectedToHost();
+            if (m_connectedToHost) {
+                m_connectedToHost(m_socket);
+                m_socket = nullptr;
+            }
             m_state = State::HIDDEN;
         }
         break;
@@ -211,12 +205,22 @@ bool Menu::isPaused() const
     return m_state == State::PAUSED;
 }
 
-void Menu::setGuestJoined(const std::function<void ()> &newGuestJoined)
+Menu::State Menu::getState() const
+{
+    return m_state;
+}
+
+void Menu::setState(State newState)
+{
+    m_state = newState;
+}
+
+void Menu::setGuestJoined(const std::function<void (SDLNet_StreamSocket *)> &newGuestJoined)
 {
     m_guestJoined = newGuestJoined;
 }
 
-void Menu::setConnectedToHost(const std::function<void ()> &newConnectedToHost)
+void Menu::setConnectedToHost(const std::function<void (SDLNet_StreamSocket*)> &newConnectedToHost)
 {
     m_connectedToHost = newConnectedToHost;
 }

@@ -8,7 +8,7 @@ Player::Player(ID id, int width, int height)
     m_player.w = width / 5;
     m_player.h = height / 48;
     m_player.y = height - m_player.h;
-    if (m_id == PLAYER1) {
+    if (m_id == ID::PLAYER1) {
         m_key_left = SDLK_a;
         m_key_right = SDLK_d;
         m_key_launch = SDLK_SPACE;
@@ -16,7 +16,7 @@ Player::Player(ID id, int width, int height)
         m_color_g = 68;
         m_color_b = 84;
         m_player.x = 0;
-    } else if (m_id == PLAYER2){
+    } else if (m_id == ID::PLAYER2){
         m_key_left = SDLK_LEFT;
         m_key_right = SDLK_RIGHT;
         m_key_launch = SDLK_RSHIFT;
@@ -44,7 +44,7 @@ void Player::processEvent(const SDL_Event &event, Ball& ball)
             m_left = true;
         if (event.key.keysym.sym == m_key_right)
             m_right = true;
-        if (event.key.keysym.sym == m_key_launch && ball.getState() == HOLDED && ball.getOwner() == m_id)
+        if (event.key.keysym.sym == m_key_launch && ball.getState() == Ball::State::HOLDED && ball.getOwner() == m_id)
             ball.launchBall(m_right - m_left);
     }
     if (event.type == SDL_EVENT_KEY_UP) {
@@ -75,7 +75,7 @@ void Player::draw(SDL_Renderer *renderer)
     SDL_RenderFillRect(renderer, &m_player);
 }
 
-SDL_FRect Player::getPosition() const
+SDL_FRect Player::getPos() const
 {
     return m_player;
 }
@@ -90,7 +90,7 @@ bool Player::isMovingRight() const
     return m_right;
 }
 
-ID Player::getID() const
+Player::ID Player::getID() const
 {
     return m_id;
 }
@@ -103,4 +103,20 @@ int Player::getScore() const
 void Player::addScore()
 {
     ++m_score;
+}
+
+void Player::setPos(SDL_FRect rect)
+{
+    m_player = rect;
+}
+
+void Player::setDirection(int direction)
+{
+    m_left = direction < 0;
+    m_right = direction > 0;
+}
+
+void Player::setScore(int newScore)
+{
+    m_score = newScore;
 }

@@ -2,29 +2,34 @@
 #define PLAYER_H
 
 #include <SDL3/SDL.h>
+#include <cstdint>
 #include <chrono>
-
-enum ID {
-    PLAYER1,
-    PLAYER2,
-    SINGLEPLAYER
-};
 
 class Ball;
 
 class Player
 {
 public:
+    enum class ID: uint8_t {
+        PLAYER1,
+        PLAYER2,
+        SINGLEPLAYER
+    };
+public:
     Player(ID id, int width, int height);
     void processEvent(const SDL_Event &event, Ball &ball);
     void update(int width);
     void draw(SDL_Renderer *renderer);
-    SDL_FRect getPosition() const;
+    SDL_FRect getPos() const;
     bool isMovingLeft() const;
     bool isMovingRight() const;
     ID getID() const;
     int getScore() const;
     void addScore();
+    void setPos(SDL_FRect rect);
+    void setDirection(int direction);
+    void setScore(int newScore);
+
 private:
     ID m_id;
     SDL_FRect m_player;
