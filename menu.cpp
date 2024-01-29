@@ -146,7 +146,7 @@ void Menu::draw()
             m_state = State::HIDDEN;
         }
         break;
-    case State::CHAT:
+    case State::CHAT: {
         ImGui::SetNextWindowPos(ImVec2(m_window->getWidth() / 4, 0));
         ImGui::SetNextWindowSize(ImVec2(m_window->getWidth() / 2, m_window->getHeight() / 2));
         ImGui::Begin("Chat", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
@@ -163,6 +163,7 @@ void Menu::draw()
             msg[0] = 0;
         }
         ImGui::End();
+    }
         break;
     default:
         break;

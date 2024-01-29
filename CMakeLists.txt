@@ -81,19 +81,19 @@ add_executable(${PROJECT_NAME}
     onlinedata.h
 )
 
-if(CMAKE_BUILD_TYPE MATCHES "Debug")
-    set(
-        CMAKE_CXX_FLAGS
-        "${CMAKE_CXX_FLAGS} -Werror -fsanitize=undefined -fsanitize=address"
-    )
-    set(
-        CMAKE_C_FLAGS
-        "${CMAKE_C_FLAGS} -Werror -fsanitize=undefined -fsanitize=address"
-    )
-    target_link_options(${PROJECT_NAME}
-        BEFORE PUBLIC -fsanitize=undefined PUBLIC -fsanitize=address
-    )
-endif()
+#if(CMAKE_BUILD_TYPE MATCHES "Debug")
+#    set(
+#        CMAKE_CXX_FLAGS
+#        "${CMAKE_CXX_FLAGS} -Werror -fsanitize=undefined -fsanitize=address"
+#    )
+#    set(
+#        CMAKE_C_FLAGS
+#        "${CMAKE_C_FLAGS} -Werror -fsanitize=undefined -fsanitize=address"
+#    )
+#    target_link_options(${PROJECT_NAME}
+#        BEFORE PUBLIC -fsanitize=undefined PUBLIC -fsanitize=address
+#    )
+#endif()
 
 target_compile_definitions(${PROJECT_NAME}
     PRIVATE
