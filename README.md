@@ -30,3 +30,5 @@ Player controls:
   - Single player:
     - Movement: Same as player 2
     - Launch: Space
+  - Chat: `
+  - Pause/Menu: Escape
